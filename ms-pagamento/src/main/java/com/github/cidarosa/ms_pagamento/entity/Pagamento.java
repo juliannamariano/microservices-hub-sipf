@@ -21,8 +21,8 @@ public class Pagamento {
     @Column(nullable = false)
     private BigDecimal valor;
     private String nome;
-    private String numeroDoCarta;
-    private String validde;
+    private String numeroDoCartao;
+    private String validade;
     private String codigoDeSeguranca;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
