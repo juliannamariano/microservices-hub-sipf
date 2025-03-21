@@ -2,10 +2,13 @@ package com.github.cidarosa.ms_pagamento.controller.handlers;
 
 
 import com.github.cidarosa.ms_pagamento.controller.handlers.dto.CustomErrorDTO;
+import com.github.cidarosa.ms_pagamento.controller.handlers.dto.ValidationErrorDTO;
 import com.github.cidarosa.ms_pagamento.service.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,19 +26,19 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<CustomErrorDTO> methodArgumentNotValidation(MethodArgumentNotValidException e,
-//                                                                      HttpServletRequest request) {
-//        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-//        ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(),
-//                "Dados inválidos", request.getRequestURI());
-//
-//        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
-//            err.addError(fieldError.getField(), fieldError.getDefaultMessage());
-//        }
-//        return ResponseEntity.status(status).body(err);
-//    }
-//
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomErrorDTO> methodArgumentNotValidation(MethodArgumentNotValidException e,
+                                                                      HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(),
+                "Dados inválidos", request.getRequestURI());
+
+        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+            err.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return ResponseEntity.status(status).body(err);
+    }
+
 //    @ExceptionHandler(DatabaseException.class)
 //    public ResponseEntity<CustomErrorDTO> handleDatabase(DatabaseException e,
 //                                                         HttpServletRequest request) {
