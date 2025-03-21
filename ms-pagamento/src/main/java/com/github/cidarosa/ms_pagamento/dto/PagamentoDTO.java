@@ -1,5 +1,6 @@
 package com.github.cidarosa.ms_pagamento.dto;
 
+import com.github.cidarosa.ms_pagamento.entity.Pagamento;
 import com.github.cidarosa.ms_pagamento.entity.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -42,4 +43,16 @@ public class PagamentoDTO {
 
     @NotNull(message = "A forma de pagamento é requerida")
     private Long formaDePagamentoId;
+
+    public PagamentoDTO(Pagamento entity) {
+        id = entity.getId();
+        valor = entity.getValor();
+        nome = entity.getNome();
+        numeroDoCartao = entity.getNumeroDoCartao();
+        validade = entity.getValidade();
+        codigoDeSeguranca = entity.getCodigoDeSeguranca();
+        status = entity.getStatus();
+        pedidoId = entity.getPedidoId();
+        formaDePagamentoId = entity.getFormaDePagamentoId();
+    }
 }
