@@ -108,5 +108,31 @@ public class PagamentoServiceTest {
         });
     }
 
+    @Test
+    public void createPagamentoShouldReturnPagamentoDTOWhenPagamentoIsCreated() {
+
+        PagamentoDTO dto = service.createPagamento(pagamentoDTO);
+
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(dto.getId(), pagamento.getId());
+    }
+
+
+    @Test
+    public void updatePagamentoShouldReturnPagamentoDTOWhenIdExists() {
+        PagamentoDTO dto = service.updatePagamento(pagamento.getId(), pagamentoDTO);
+
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(dto.getId(), existingId);
+        Assertions.assertEquals(dto.getValor(), pagamento.getValor());
+    }
+
+    @Test
+    public void updatePagamentoShouldReturnResourceNotFoundExceptionWhenIdDoesNotExist() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.updatePagamento(nonExistingId, pagamentoDTO);
+        });
+    }
+
 
 }
